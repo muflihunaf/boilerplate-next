@@ -3,53 +3,98 @@
 import { redirect } from "next/navigation";
 import { authConfig } from "./config";
 import { createSession, deleteSession } from "./session";
-import type { LoginCredentials, AuthResponse, AuthError } from "./types";
+import type { LoginCredentials, AuthResponse } from "./types";
 
 /**
- * Server Actions for authentication
+ * Form state for useActionState
  */
-
-type ActionResult<T> = 
-  | { success: true; data: T }
-  | { success: false; error: AuthError };
+export type LoginFormState = {
+  errors?: {
+    email?: string;
+    password?: string;
+  };
+  message?: string;
+  success?: boolean;
+};
 
 /**
- * Login action
- * Replace the mock API call with your actual backend
+ * Login action (for useActionState)
  */
-export async function login(
-  credentials: LoginCredentials
-): Promise<ActionResult<{ redirectTo: string }>> {
+export async function loginAction(
+  _prevState: LoginFormState | undefined,
+  formData: FormData
+): Promise<LoginFormState> {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  // Validate input
+  const errors: LoginFormState["errors"] = {};
+
+  if (!email) {
+    errors.email = "Email is required";
+  } else if (!email.includes("@")) {
+    errors.email = "Please enter a valid email";
+  }
+
+  if (!password) {
+    errors.password = "Password is required";
+  } else if (password.length < 6) {
+    errors.password = "Password must be at least 6 characters";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
+
   try {
-    // Validate input
-    if (!credentials.email || !credentials.password) {
-      return {
-        success: false,
-        error: { message: "Email and password are required" },
-      };
-    }
-
-    // TODO: Replace with your actual API call
-    const response = await authenticateWithBackend(credentials);
+    // Authenticate with backend
+    const response = await authenticateWithBackend({ email, password });
 
     if (!response) {
-      return {
-        success: false,
-        error: { message: "Invalid email or password" },
-      };
+      return { message: "Invalid email or password" };
     }
 
     // Create session cookie
     await createSession(response.accessToken, response.user);
 
+    return { success: true };
+  } catch (error) {
+    console.error("Login error:", error);
+    return { message: "An unexpected error occurred. Please try again." };
+  }
+}
+
+/**
+ * Legacy login function (for programmatic use)
+ */
+export async function login(credentials: LoginCredentials) {
+  try {
+    if (!credentials.email || !credentials.password) {
+      return {
+        success: false as const,
+        error: { message: "Email and password are required" },
+      };
+    }
+
+    const response = await authenticateWithBackend(credentials);
+
+    if (!response) {
+      return {
+        success: false as const,
+        error: { message: "Invalid email or password" },
+      };
+    }
+
+    await createSession(response.accessToken, response.user);
+
     return {
-      success: true,
+      success: true as const,
       data: { redirectTo: authConfig.routes.dashboard },
     };
   } catch (error) {
     console.error("Login error:", error);
     return {
-      success: false,
+      success: false as const,
       error: { message: "An unexpected error occurred" },
     };
   }
@@ -71,11 +116,9 @@ async function authenticateWithBackend(
   credentials: LoginCredentials
 ): Promise<AuthResponse | null> {
   // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 800));
 
   // Mock validation - replace with real API call
-  // Example: const response = await fetch('/api/auth/login', { ... })
-  
   if (credentials.email === "demo@example.com" && credentials.password === "password") {
     return {
       user: {
@@ -84,10 +127,9 @@ async function authenticateWithBackend(
         name: "Demo User",
       },
       accessToken: "mock-jwt-token-" + Date.now(),
-      expiresIn: 60 * 60 * 24 * 7, // 7 days
+      expiresIn: 60 * 60 * 24 * 7,
     };
   }
 
   return null;
 }
-
