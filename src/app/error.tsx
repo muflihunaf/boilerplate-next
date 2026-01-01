@@ -11,23 +11,19 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
-      <div className="animate-fade-in">
-        <span className="text-6xl">⚠️</span>
-        <h1 className="mt-4 text-3xl font-bold">Something went wrong</h1>
-        <p className="mt-2 text-muted">
-          An unexpected error occurred. Please try again.
-        </p>
-        <div className="mt-8">
-          <Button onClick={() => reset()}>Try again</Button>
-        </div>
+    <div className="flex flex-1 flex-col items-center justify-center px-4 py-20 text-center">
+      <span className="text-4xl">⚠️</span>
+      <h1 className="mt-4 text-2xl font-bold">Something went wrong</h1>
+      <p className="mt-2 text-muted">
+        An unexpected error occurred. Please try again.
+      </p>
+      <div className="mt-8">
+        <Button onClick={() => reset()}>Try again</Button>
       </div>
     </div>
   );
 }
-

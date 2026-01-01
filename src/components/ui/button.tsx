@@ -24,18 +24,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 rounded-lg";
+      "inline-flex items-center justify-center font-medium transition-colors ring-focus rounded-lg disabled:pointer-events-none disabled:opacity-50";
 
     const variants = {
-      primary:
-        "bg-primary text-white hover:bg-primary-hover focus-visible:ring-primary shadow-sm",
-      secondary:
-        "bg-secondary text-white hover:bg-secondary-hover focus-visible:ring-secondary shadow-sm",
-      outline:
-        "border border-border bg-transparent hover:bg-card hover:border-muted focus-visible:ring-primary",
-      ghost: "hover:bg-card focus-visible:ring-primary",
-      destructive:
-        "bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600 shadow-sm",
+      primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+      secondary: "bg-surface text-foreground hover:bg-surface-hover",
+      outline: "border border-border bg-transparent hover:bg-surface",
+      ghost: "hover:bg-surface",
+      destructive: "bg-error text-white hover:bg-error/90",
     };
 
     const sizes = {
@@ -45,7 +41,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       icon: "h-10 w-10",
     };
 
-    // Handle asChild prop for Link wrapping
     if (asChild) {
       return (
         <span
@@ -94,4 +89,3 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 
 export { Button };
-
