@@ -1,24 +1,33 @@
 import type { Metadata, Viewport } from "next";
 import "@/app/globals.css";
-import { siteConfig } from "@/config/site";
 
+/**
+ * Site configuration - update these values for your project
+ */
+const siteConfig = {
+  name: "Next.js Boilerplate",
+  description: "A production-ready Next.js starter with App Router, TypeScript, and Tailwind CSS.",
+  url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+} as const;
+
+/**
+ * Metadata configuration
+ * @see https://nextjs.org/docs/app/api-reference/functions/generate-metadata
+ */
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: siteConfig.keywords,
-  authors: [{ name: siteConfig.author }],
-  creator: siteConfig.author,
   metadataBase: new URL(siteConfig.url),
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
+    siteName: siteConfig.name,
     title: siteConfig.name,
     description: siteConfig.description,
-    siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
@@ -31,31 +40,41 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Viewport configuration
+ * @see https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ */
 export const viewport: Viewport = {
   themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5,
 };
 
+/**
+ * Root Layout
+ * Wraps all pages with global styles and structure
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        {/* Skip to main content for accessibility */}
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        {/* Accessibility: Skip to main content */}
         <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-foreground focus:px-4 focus:py-2 focus:text-background"
         >
-          Skip to main content
+          Skip to content
         </a>
-        
-        <main id="main-content" className="flex min-h-screen flex-col">
+
+        {/* Page content */}
+        <div id="main" className="relative flex min-h-screen flex-col">
           {children}
-        </main>
+        </div>
       </body>
     </html>
   );
