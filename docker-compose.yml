@@ -1,0 +1,45 @@
+# ==================================================
+# Docker Compose for local development and testing
+# ==================================================
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_APP_NAME=${NEXT_PUBLIC_APP_NAME:-Next.js Boilerplate}
+        - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-/api}
+        - NEXT_PUBLIC_ENABLE_ANALYTICS=${NEXT_PUBLIC_ENABLE_ANALYTICS:-false}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # Server-only environment variables
+      - DATABASE_URL=${DATABASE_URL:-}
+      - AUTH_SECRET=${AUTH_SECRET:-development-secret}
+      - REDIS_URL=${REDIS_URL:-}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Uncomment to add database
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: app
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   postgres_data:
+

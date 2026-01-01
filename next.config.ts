@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   // Enable React strict mode for better development experience
   reactStrictMode: true,
 
+  // Enable standalone output for Docker deployment
+  // Creates a minimal production build with only necessary files
+  output: "standalone",
+
   // Image optimization configuration
   images: {
     remotePatterns: [
@@ -16,12 +20,6 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Environment variables that should be available on the client
-  env: {
-    NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-  },
-
   // Experimental features (enable as needed)
   experimental: {
     // typedRoutes: true,
@@ -29,4 +27,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
