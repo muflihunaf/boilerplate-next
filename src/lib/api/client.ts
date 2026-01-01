@@ -6,10 +6,12 @@
 import { ApiError, isApiError } from "./errors";
 import type { RequestConfig, ApiResponse } from "./types";
 
+import { publicEnv } from "@/config/env";
+
 /**
  * Default configuration
  */
-const DEFAULT_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
+const DEFAULT_BASE_URL = publicEnv.API_URL;
 
 const defaultHeaders: HeadersInit = {
   "Content-Type": "application/json",

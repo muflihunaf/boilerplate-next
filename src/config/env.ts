@@ -1,30 +1,39 @@
 /**
- * Environment configuration
- * Type-safe access to environment variables
+ * Environment Variables
+ * 
+ * This file provides type-safe access to environment variables.
+ * 
+ * IMPORTANT:
+ * - NEXT_PUBLIC_* variables are exposed to the browser
+ * - All other variables are server-only
+ * - Never import serverEnv in client components
  */
 
-const getEnvVar = (key: string, defaultValue?: string): string => {
-  const value = process.env[key] || defaultValue;
-  if (value === undefined) {
-    throw new Error(`Missing environment variable: ${key}`);
-  }
-  return value;
-};
+// ============================================
+// PUBLIC ENVIRONMENT VARIABLES
+// Safe to use in client components
+// ============================================
 
-export const env = {
-  // Node environment
-  NODE_ENV: process.env.NODE_ENV || "development",
+/**
+ * Public environment variables
+ * These are bundled into the client JavaScript
+ */
+export const publicEnv = {
+  /** Application name */
+  APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || "Next.js Boilerplate",
   
-  // App configuration
-  NEXT_PUBLIC_APP_NAME: getEnvVar("NEXT_PUBLIC_APP_NAME", "Next.js Boilerplate"),
-  NEXT_PUBLIC_APP_URL: getEnvVar("NEXT_PUBLIC_APP_URL", "http://localhost:3000"),
+  /** Public URL of the application */
+  APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   
-  // API configuration
-  NEXT_PUBLIC_API_URL: getEnvVar("NEXT_PUBLIC_API_URL", "http://localhost:3000/api"),
+  /** API base URL (public endpoint) */
+  API_URL: process.env.NEXT_PUBLIC_API_URL || "/api",
   
-  // Feature flags (add as needed)
-  // NEXT_PUBLIC_ENABLE_ANALYTICS: getEnvVar("NEXT_PUBLIC_ENABLE_ANALYTICS", "false") === "true",
+  /** Enable analytics */
+  ENABLE_ANALYTICS: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === "true",
+  
+  /** Current environment */
+  IS_PRODUCTION: process.env.NODE_ENV === "production",
+  IS_DEVELOPMENT: process.env.NODE_ENV === "development",
 } as const;
 
-export type Env = typeof env;
-
+export type PublicEnv = typeof publicEnv;
