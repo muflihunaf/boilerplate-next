@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
-import { getUser, logout } from "@/lib/auth";
+import { requireAuth } from "@/lib/auth/guard";
+import { logout } from "@/lib/auth";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -9,12 +9,8 @@ export const metadata = {
 };
 
 export default async function DashboardPage() {
-  const user = await getUser();
-
-  // Double-check auth (middleware should catch this, but just in case)
-  if (!user) {
-    redirect("/login");
-  }
+  // Require authentication - redirects to login if not authenticated
+  const user = await requireAuth();
 
   return (
     <div className="py-12">
@@ -63,13 +59,12 @@ export default async function DashboardPage() {
         <div className="mt-8 rounded-lg border border-border bg-surface p-6">
           <h2 className="mb-2 font-semibold">🔒 Protected Route</h2>
           <p className="text-sm text-muted">
-            This page is protected by the auth middleware. Unauthenticated users
-            are automatically redirected to the login page. The session is stored
-            in an HTTP-only cookie for security.
+            This page uses <code className="rounded bg-surface px-1.5 py-0.5 text-foreground">requireAuth()</code> to 
+            ensure only authenticated users can access it. Unauthenticated users are 
+            automatically redirected to the login page.
           </p>
         </div>
       </Container>
     </div>
   );
 }
-
