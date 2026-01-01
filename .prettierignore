@@ -1,0 +1,19 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+.next
+out
+build
+dist
+
+# Generated
+next-env.d.ts
+package-lock.json
+pnpm-lock.yaml
+
+# Cache
+.cache
+*.tsbuildinfo
+

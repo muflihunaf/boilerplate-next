@@ -10,17 +10,44 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  // Next.js recommended rules
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+  // Custom rules
   {
     rules: {
-      // Add custom rules here
+      // TypeScript
       "@typescript-eslint/no-unused-vars": [
         "warn",
-        { argsIgnorePattern: "^_" },
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
       ],
+      "@typescript-eslint/no-explicit-any": "warn",
+
+      // React
+      "react/no-unescaped-entities": "off",
+      "react/prop-types": "off",
+
+      // Next.js
+      "@next/next/no-html-link-for-pages": "off",
     },
+  },
+
+  // Ignore patterns
+  {
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "out/**",
+      "build/**",
+      "dist/**",
+      "next-env.d.ts",
+      "*.config.js",
+      "*.config.mjs",
+    ],
   },
 ];
 
 export default eslintConfig;
-

@@ -72,27 +72,34 @@ npm start
 
 ## Folder Conventions
 
-| Folder | Purpose |
-|--------|---------|
-| `app/` | Next.js App Router - pages, layouts, API routes |
-| `components/ui/` | Reusable UI primitives (Button, Card, Input) |
-| `components/` | Feature-specific components (add as needed) |
-| `config/` | App configuration and environment |
-| `hooks/` | Custom React hooks |
-| `lib/` | Utility functions and API client |
-| `types/` | Shared TypeScript types |
+| Folder           | Purpose                                         |
+| ---------------- | ----------------------------------------------- |
+| `app/`           | Next.js App Router - pages, layouts, API routes |
+| `components/ui/` | Reusable UI primitives (Button, Card, Input)    |
+| `components/`    | Feature-specific components (add as needed)     |
+| `config/`        | App configuration and environment               |
+| `hooks/`         | Custom React hooks                              |
+| `lib/`           | Utility functions and API client                |
+| `types/`         | Shared TypeScript types                         |
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Fix ESLint errors |
-| `npm run type-check` | Run TypeScript check |
-| `npm run format` | Format with Prettier |
+| Command                | Description                            |
+| ---------------------- | -------------------------------------- |
+| `npm run dev`          | Start development server (Turbopack)   |
+| `npm run dev:debug`    | Start with Node.js inspector           |
+| `npm run build`        | Build for production                   |
+| `npm start`            | Start production server                |
+| `npm run lint`         | Run ESLint                             |
+| `npm run lint:fix`     | Fix ESLint errors                      |
+| `npm run type-check`   | Run TypeScript check                   |
+| `npm run format`       | Format all files with Prettier         |
+| `npm run format:check` | Check formatting without changes       |
+| `npm run check`        | Run all checks (types + lint + format) |
+| `npm run clean`        | Clear build cache                      |
+| `npm run clean:all`    | Clear cache + node_modules             |
+| `npm run docker:build` | Build Docker image                     |
+| `npm run docker:run`   | Run Docker container                   |
 
 ## Environment Variables
 
@@ -103,6 +110,7 @@ cp .env.example .env.local
 ```
 
 Required variables:
+
 - `NEXT_PUBLIC_APP_NAME` - Application name
 - `NEXT_PUBLIC_APP_URL` - Application URL
 - `NEXT_PUBLIC_API_URL` - API endpoint
@@ -182,4 +190,3 @@ CMD ["npm", "start"]
 ## License
 
 MIT License - feel free to use for any project.
-
