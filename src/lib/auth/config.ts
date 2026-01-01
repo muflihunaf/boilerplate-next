@@ -22,7 +22,7 @@ export const authConfig = {
   },
 
   // Protected route patterns
-  protectedRoutes: ["/dashboard", "/settings", "/profile"],
+  protectedRoutes: ["/dashboard", "/settings", "/profile", "/users"],
   publicRoutes: ["/", "/login", "/register"],
 } as const;
 

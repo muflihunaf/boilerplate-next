@@ -26,6 +26,12 @@ export default function ProtectedLayout({
               Home
             </Link>
             <Link
+              href="/users"
+              className="text-sm text-muted no-underline hover:text-foreground"
+            >
+              Users
+            </Link>
+            <Link
               href="/settings"
               className="text-sm text-muted no-underline hover:text-foreground"
             >

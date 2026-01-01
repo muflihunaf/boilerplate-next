@@ -27,11 +27,29 @@ export interface BaseEntity {
   updatedAt: string;
 }
 
-// User type example
+// User types
+export type UserRole = "admin" | "user";
+export type UserStatus = "active" | "inactive";
+
 export interface User extends BaseEntity {
   email: string;
   name: string;
   avatar?: string;
+  role?: UserRole;
+  status?: UserStatus;
+}
+
+export interface CreateUserInput {
+  name: string;
+  email: string;
+  role: UserRole;
+}
+
+export interface UpdateUserInput {
+  name?: string;
+  email?: string;
+  role?: UserRole;
+  status?: UserStatus;
 }
 
 // Form states
@@ -40,4 +58,3 @@ export type FormStatus = "idle" | "loading" | "success" | "error";
 // Utility types
 export type Nullable<T> = T | null;
 export type Optional<T> = T | undefined;
-

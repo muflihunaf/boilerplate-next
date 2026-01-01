@@ -5,3 +5,6 @@ export type { RequestConfig, ApiResponse, PaginatedData, ListParams } from "./ty
 
 // Server API is exported separately due to "use server" directive
 // Use: import { serverApi } from "@/lib/api/server"
+
+// User API functions
+export { getUsers, getUser, createUser, updateUser, deleteUser } from "./users";
